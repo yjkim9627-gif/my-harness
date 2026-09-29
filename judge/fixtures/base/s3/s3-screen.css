@@ -1,0 +1,13 @@
+body { margin: 0; font-family: var(--font-family-text); font-size: var(--font-size-text-md); font-weight: var(--font-weight-regular); }
+h2 { font-size: var(--font-size-text-xl); font-weight: var(--font-weight-semibold); }
+.nav { width: 262px; }
+.topbar { height: 56px; }
+.filter-bar { display: flex; align-items: center; height: 64px; gap: var(--spacing-sm); }
+.main { padding: var(--spacing-2xl); background: var(--color-neutral-0); }
+.section { border-top: 1px solid var(--color-neutral-300); margin-top: var(--spacing-3xl); }
+.actual-card { background: var(--color-neutral-0); border: 1px solid var(--color-neutral-400); border-radius: var(--radius-lg); }
+.forecast-card { background: var(--color-neutral-100); border-radius: var(--radius-lg); }
+.segment[aria-selected=true] { background: var(--color-brand-primary); }
+.cta-link { color: var(--color-brand-primary); }
+.empty-slot { border: 1px dashed var(--color-neutral-400); }
+.popover { box-shadow: var(--shadow-popover); }

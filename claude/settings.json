@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/prototypes/ai-social-media/analytics/harness/hooks/guard.mjs\""
+          }
+        ]
+      }
+    ]
+  }
+}

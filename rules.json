@@ -1,0 +1,641 @@
+{
+  "$comment": "규칙 SSOT (P2). 값은 토큰 이름으로 적고 실제 px·hex는 sources.tokens에서 읽는다. source: 사용자 | 기본값 승인 | design.md | Figma ref | PRD | story-service | story-work | 임의",
+  "sources": {
+    "tokens": "tokens/tokens.css",
+    "design": "components/ai-social-media/design.md",
+    "prd": "prototypes/ai-social-media/analytics/harness/docs/prd.md",
+    "storyService": "prototypes/ai-social-media/analytics/harness/docs/story-service.md",
+    "figmaReference": {
+      "fileKey": "IwmNcXuHeFy7fmv5uhQdwa",
+      "nodeId": "1:3642",
+      "source": "사용자"
+    }
+  },
+  "screens": {
+    "production-status": {
+      "metrics": [
+        {
+          "name": "Posts ready",
+          "aliases": []
+        },
+        {
+          "name": "Failed renders",
+          "aliases": []
+        },
+        {
+          "name": "auto-retry",
+          "aliases": [
+            "Auto-retry",
+            "auto retry"
+          ]
+        },
+        {
+          "name": "Compute spend",
+          "aliases": []
+        }
+      ],
+      "actions": [
+        {
+          "name": "retry",
+          "aliases": [
+            "Retry",
+            "다시 시도",
+            "재시도"
+          ]
+        },
+        {
+          "name": "delete",
+          "aliases": [
+            "Delete",
+            "삭제"
+          ]
+        }
+      ],
+      "source": "PRD"
+    },
+    "content-overview": {
+      "metrics": [
+        {
+          "name": "Content mix",
+          "aliases": []
+        },
+        {
+          "name": "Reels",
+          "aliases": []
+        },
+        {
+          "name": "Posts",
+          "aliases": []
+        },
+        {
+          "name": "Carousels",
+          "aliases": []
+        },
+        {
+          "name": "Stories",
+          "aliases": []
+        },
+        {
+          "name": "Instagram",
+          "aliases": [
+            "인스타그램"
+          ]
+        },
+        {
+          "name": "Facebook",
+          "aliases": [
+            "페이스북"
+          ]
+        },
+        {
+          "name": "TikTok",
+          "aliases": [
+            "틱톡"
+          ]
+        },
+        {
+          "name": "Views",
+          "aliases": [
+            "조회수"
+          ]
+        },
+        {
+          "name": "Likes",
+          "aliases": [
+            "좋아요"
+          ]
+        },
+        {
+          "name": "Top performers",
+          "aliases": []
+        },
+        {
+          "name": "Top forecast performers",
+          "aliases": []
+        }
+      ],
+      "actions": [],
+      "source": "PRD"
+    },
+    "paid-performance": {
+      "metrics": [
+        {
+          "name": "Ad spend",
+          "aliases": []
+        },
+        {
+          "name": "Peak week",
+          "aliases": []
+        },
+        {
+          "name": "Avg",
+          "aliases": [
+            "Average"
+          ]
+        },
+        {
+          "name": "Total",
+          "aliases": []
+        },
+        {
+          "name": "Impressions",
+          "aliases": []
+        },
+        {
+          "name": "Clicks",
+          "aliases": []
+        },
+        {
+          "name": "CTR",
+          "aliases": []
+        },
+        {
+          "name": "Leads",
+          "aliases": []
+        },
+        {
+          "name": "CPL",
+          "aliases": []
+        },
+        {
+          "name": "CPA",
+          "aliases": []
+        }
+      ],
+      "actions": [],
+      "source": "PRD"
+    }
+  },
+  "period": {
+    "options": [
+      {
+        "name": "30일",
+        "aliases": [
+          "30 days",
+          "30d"
+        ]
+      },
+      {
+        "name": "90일",
+        "aliases": [
+          "90 days",
+          "90d"
+        ]
+      },
+      {
+        "name": "All time",
+        "aliases": []
+      },
+      {
+        "name": "Custom",
+        "aliases": []
+      }
+    ],
+    "default": "30일",
+    "control": "Controls / Filter / Select",
+    "source": {
+      "options": "PRD",
+      "aliases": "기본값 승인",
+      "default": "기본값 승인",
+      "control": "기본값 승인"
+    }
+  },
+  "gates": {
+    "S1": {
+      "referenceCount": {
+        "min": 3,
+        "max": 5,
+        "source": "기본값 승인"
+      },
+      "requiredFields": [
+        "ui_url",
+        "screen"
+      ],
+      "forbiddenPatterns": [
+        {
+          "id": "brand-primary-selected",
+          "desc": "선택 상태를 브랜드 블루 배경으로 칠함"
+        },
+        {
+          "id": "brand-primary-filled-button",
+          "desc": "브랜드 블루로 채운 버튼"
+        },
+        {
+          "id": "shadow-card-border",
+          "desc": "그림자로 카드 경계를 그림"
+        }
+      ],
+      "source": "design.md",
+      "format": {
+        "file": "s1/s1-reference.md",
+        "block": "```json 코드블록 1개: {screen, references:[{ui_url, screen, adopt:[{what, patterns:[]}], reject:[{what, patterns:[]}]}]}",
+        "source": "기본값 승인"
+      }
+    },
+    "S2": {
+      "requireAllScreenMetrics": true,
+      "requireAllPeriodOptions": true,
+      "requireScreenActions": true,
+      "source": "PRD",
+      "file": "s2/s2-spec.md"
+    },
+    "approval": {
+      "file": "runs/<screen>/approval.md",
+      "required": {
+        "approved": "yes",
+        "stage": "S2"
+      },
+      "writer": "human",
+      "source": "기본값 승인",
+      "hash": {
+        "key": "s2-sha256",
+        "of": "s2/s2-spec.md",
+        "source": "개선 3"
+      }
+    },
+    "S3": {
+      "rawColor": {
+        "patterns": [
+          "#[0-9a-fA-F]{3,8}\\b",
+          "rgba?\\(",
+          "hsla?\\(",
+          "hwb\\(",
+          "lab\\(",
+          "lch\\(",
+          "oklab\\(",
+          "oklch\\(",
+          "color\\("
+        ],
+        "max": 0,
+        "source": "design.md",
+        "namedColors": {
+          "props": [
+            "color",
+            "background",
+            "border",
+            "outline",
+            "fill",
+            "stroke",
+            "box-shadow",
+            "text-decoration",
+            "caret-color",
+            "accent-color",
+            "column-rule"
+          ],
+          "source": "design.md (개선 1)"
+        }
+      },
+      "rawPx": {
+        "max": 0,
+        "exceptions": [
+          "0",
+          "1px"
+        ],
+        "source": "design.md",
+        "exceptionsSource": "기본값 승인",
+        "onePxOnlyForProps": [
+          "border",
+          "border-top",
+          "border-right",
+          "border-bottom",
+          "border-left",
+          "border-width",
+          "outline",
+          "outline-width"
+        ],
+        "onePxSource": "기본값 승인 (\"1px 보더는 예외\")",
+        "units": [
+          "px",
+          "rem",
+          "em",
+          "vw",
+          "vh",
+          "vmin",
+          "vmax",
+          "svh",
+          "lvh",
+          "dvh",
+          "pt",
+          "pc",
+          "cm",
+          "mm",
+          "in",
+          "q",
+          "ch",
+          "ex",
+          "cap",
+          "lh"
+        ],
+        "unitsSource": "design.md (개선 1: px 외 단위 우회 차단)",
+        "dimensionPx": {
+          "props": [
+            "width",
+            "min-width",
+            "max-width",
+            "height",
+            "min-height",
+            "max-height",
+            "flex-basis",
+            "grid-template-columns",
+            "grid-template-rows",
+            "grid-auto-columns",
+            "grid-auto-rows"
+          ],
+          "allowedValues": [
+            262,
+            56,
+            64,
+            304,
+            1920,
+            1162
+          ],
+          "source": "Figma ref (layout 치수 — 토큰이 없는 골격 크기)"
+        }
+      },
+      "unknownTokenRef": {
+        "max": 0,
+        "source": "design.md"
+      },
+      "boxShadow": {
+        "allowed": [
+          "--shadow-modal",
+          "--shadow-popover",
+          "--shadow-context-popover",
+          "--shadow-canvas-poster"
+        ],
+        "source": "design.md",
+        "alsoForbid": [
+          {
+            "prop": "filter",
+            "contains": "drop-shadow"
+          },
+          {
+            "prop": "backdrop-filter",
+            "contains": "drop-shadow"
+          },
+          {
+            "prop": "text-shadow"
+          }
+        ],
+        "alsoForbidSource": "design.md (개선 1)"
+      },
+      "brandPrimary": {
+        "tokenPrefix": "--color-brand-primary",
+        "allowedSelectors": [
+          ":checked",
+          "[aria-selected=true]",
+          "[aria-pressed=true]",
+          ".is-on",
+          ".ai-*",
+          ".cta-*"
+        ],
+        "source": {
+          "rule": "design.md",
+          "allowedSelectors": "기본값 승인"
+        }
+      },
+      "dashedBorder": {
+        "allowedSelectors": [
+          ".empty-slot",
+          ".add-*"
+        ],
+        "source": {
+          "rule": "design.md",
+          "allowedSelectors": "기본값 승인"
+        }
+      },
+      "componentNames": {
+        "attribute": "data-component",
+        "allowed": [
+          "Nav / Navigation",
+          "Nav / App TopBar",
+          "Actions / Button",
+          "Controls / Search Field",
+          "Controls / Segmented Control",
+          "Controls / Filter / Select",
+          "Controls / Scrollbar",
+          "Feedback / Status Chip",
+          "Data / Post Status Chip",
+          "Table",
+          "Table / Column",
+          "Table / Cell",
+          "Table / Pagination",
+          "Badge",
+          "info-table"
+        ],
+        "source": {
+          "reference 9개": "Figma ref",
+          "Table·Badge·info-table": "FME library"
+        },
+        "missingInLibrary": {
+          "items": [
+            "chart",
+            "stat / KPI card"
+          ],
+          "decision": "FME에 만들 때까지 S2에 \"목록에 없음\"으로 표시, S3로 넘어가지 않음",
+          "source": "기본값 승인"
+        }
+      },
+      "forecastActual": {
+        "attribute": "data-kind",
+        "values": {
+          "forecast": "Forecast",
+          "actual": "Actual"
+        },
+        "mustNotShareSection": true,
+        "mustNotShareCardClass": true,
+        "requireLabelText": true,
+        "source": "story-service"
+      },
+      "productionContent": {
+        "attribute": "data-section",
+        "values": [
+          "production",
+          "content"
+        ],
+        "mustNotShareOrNest": true,
+        "source": "story-service"
+      },
+      "requiredOnScreens": {
+        "content-overview": {
+          "data-kind": [
+            "forecast",
+            "actual"
+          ],
+          "data-section": [
+            "content"
+          ]
+        },
+        "production-status": {
+          "data-section": [
+            "production"
+          ]
+        },
+        "source": "기본값 승인"
+      },
+      "designCopyDrift": {
+        "copy": "prototypes/ai-social-media/analytics/harness/reference/design.md",
+        "onDiff": "warn",
+        "source": "기본값 승인 (R7)"
+      },
+      "files": {
+        "html": "s3/s3-screen.html",
+        "css": "s3/s3-screen.css"
+      },
+      "render": {
+        "chrome": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "viewport": [
+          1920,
+          1162
+        ],
+        "budgetMs": 3000,
+        "timeoutMs": 30000,
+        "source": "개선 2"
+      },
+      "radius": {
+        "tokenPrefix": "--radius-",
+        "source": "design.md"
+      },
+      "typography": {
+        "sizeTokenPrefix": "--font-size-",
+        "familyTokenPrefix": "--font-family-",
+        "fontWeights": [
+          400,
+          500,
+          600,
+          700
+        ],
+        "source": "design.md"
+      },
+      "controls": {
+        "iconButton": {
+          "size": 36,
+          "radius": "--radius-lg"
+        },
+        "inputHeights": [
+          36,
+          40
+        ],
+        "inputExcludeTypes": [
+          "checkbox",
+          "radio",
+          "range",
+          "hidden",
+          "color",
+          "file"
+        ],
+        "source": "design.md"
+      }
+    },
+    "S4": {
+      "detachedOrLocalComponents": {
+        "max": 0,
+        "excludeEmptyLayoutFrames": true
+      },
+      "unboundFillStroke": {
+        "max": 0
+      },
+      "textWithoutStyle": {
+        "max": 0
+      },
+      "componentListDiff": {
+        "max": 0,
+        "compare": "html data-component ↔ figma instance name, count"
+      },
+      "textContentDiff": {
+        "max": 0
+      },
+      "judgeFrom": "script re-reads Figma; agent reports ignored",
+      "source": "기본값 승인",
+      "files": {
+        "figma": "s4/s4-figma.json",
+        "compare": "s4/s4-compare.json"
+      },
+      "api": {
+        "base": "https://api.figma.com/v1",
+        "tokenEnv": "FIGMA_TOKEN"
+      }
+    }
+  },
+  "retry": {
+    "S2": 2,
+    "S3": 3,
+    "S4": 3,
+    "onExceed": "stop and notify human",
+    "source": "기본값 승인",
+    "runner": "judge/run-stage.mjs",
+    "exitCodes": {
+      "0": "통과",
+      "1": "실패(재시도 가능)",
+      "3": "한도 초과",
+      "4": "선행 조건 미충족",
+      "2": "오류"
+    }
+  },
+  "layout": {
+    "frame": {
+      "workflow": [
+        1920,
+        1000
+      ],
+      "screen": [
+        1920,
+        1162
+      ]
+    },
+    "nav": {
+      "component": "Nav / Navigation",
+      "width": 262
+    },
+    "topBar": {
+      "component": "Nav / App TopBar",
+      "height": 56
+    },
+    "mainPadding": "--spacing-2xl",
+    "titleToSubtitle": "--spacing-xs",
+    "headerToNext": "--spacing-xl",
+    "filterBar": {
+      "height": 64,
+      "segmentedToFilter": "--spacing-sm",
+      "filterGap": "--spacing-md"
+    },
+    "cardGrid": {
+      "columnGap": "--spacing-lg",
+      "rowGap": "--spacing-2xl",
+      "thumbToMeta": "--spacing-sm"
+    },
+    "screenSwitch": "Controls / Segmented Control",
+    "source": {
+      "frame.workflow": "story-work",
+      "frame.screen": "Figma ref",
+      "mainPadding": "기본값 승인 (레퍼런스 28은 토큰 없음)",
+      "screenSwitch": "기본값 승인",
+      "rest": "Figma ref"
+    }
+  },
+  "analyticsStyle": {
+    "sectionDivider": {
+      "border": "--color-neutral-300",
+      "gap": "--spacing-3xl"
+    },
+    "actual": {
+      "background": "--color-neutral-0",
+      "border": "--color-neutral-400",
+      "label": "Actual"
+    },
+    "forecast": {
+      "background": "--color-neutral-100",
+      "badge": "--color-badge-gray",
+      "label": "Forecast",
+      "forbid": [
+        "dashed border",
+        "brand-primary fill"
+      ]
+    },
+    "failedBadge": "--color-badge-red",
+    "readyBadge": "--color-badge-green",
+    "source": "기본값 승인"
+  },
+  "$metricAliasesSource": "기본값 승인",
+  "$actionAliasesSource": "기본값 승인"
+}

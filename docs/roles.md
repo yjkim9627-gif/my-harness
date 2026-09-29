@@ -11,6 +11,7 @@
 |---|---|---|---|
 | `s1-reference` | S1 | `runs/<화면>/s1/` | `s1-reference.md` |
 | `s2-spec` | S2 | `runs/<화면>/s2/` | `s2-spec.md` |
+| `sw-wireframe` | SW | `runs/<화면>/sw/` | `sw-wireframe.html` |
 | `s3-html` | S3 | `runs/<화면>/s3/` | `s3-screen.html`, `s3-screen.css` |
 | `s4-figma` | S4 | `runs/<화면>/s4/` + Figma "Analytics" 페이지 | `s4-figma.json` |
 

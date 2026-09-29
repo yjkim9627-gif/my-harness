@@ -268,6 +268,8 @@ label:(e.getAttribute('aria-label')||e.textContent||'').trim().replace(/\\s+/g,'
 text:(e.textContent||'').trim(),
 x:Math.round(b.left*100)/100,y:Math.round(b.top*100)/100,w:Math.round(b.width*100)/100,h:Math.round(b.height*100)/100,
 columnGap:s.columnGap,rowGap:s.rowGap,
+color:s.color,background:s.backgroundColor,bgImage:s.backgroundImage,boxShadow:s.boxShadow,
+borders:['Top','Right','Bottom','Left'].filter(k=>s['border'+k+'Style']!=='none'&&parseFloat(s['border'+k+'Width'])>0).map(k=>s['border'+k+'Color']),
 radius:[s.borderTopLeftRadius,s.borderTopRightRadius,s.borderBottomRightRadius,s.borderBottomLeftRadius],
 fontSize:s.fontSize,fontWeight:s.fontWeight,fontFamily:s.fontFamily,
 padding:[s.paddingTop,s.paddingRight,s.paddingBottom,s.paddingLeft]});}

@@ -245,18 +245,39 @@
       "source": "PRD",
       "file": "s2/s2-spec.md"
     },
+    "SW": {
+      "file": "sw/sw-wireframe.html",
+      "placeholderAttribute": "data-placeholder",
+      "placeholderUse": "FME에 없는 요소(chart, stat-card 등)는 이 속성의 회색 박스로 그려도 통과",
+      "grayOnly": true,
+      "noImages": true,
+      "noShadows": true,
+      "requireScreenText": "screens.<화면>.metrics + period.options + screens.<화면>.actions",
+      "skeleton": "S3-12와 같은 검사",
+      "structure": "S3-8~11과 같은 검사",
+      "notChecked": [
+        "tokens",
+        "px",
+        "font",
+        "radius"
+      ],
+      "source": "기본값 승인 (와이어프레임 라운드)"
+    },
     "approval": {
       "file": "runs/<screen>/approval.md",
       "required": {
         "approved": "yes",
-        "stage": "S2"
+        "stage": "SW"
       },
       "writer": "human",
       "source": "기본값 승인",
       "hash": {
-        "key": "s2-sha256",
-        "of": "s2/s2-spec.md",
-        "source": "개선 3"
+        "key": "approved-sha256",
+        "of": [
+          "s2/s2-spec.md",
+          "sw/sw-wireframe.html"
+        ],
+        "source": "기본값 승인 (와이어프레임 라운드)"
       }
     },
     "S3": {
@@ -527,6 +548,11 @@
           "file"
         ],
         "source": "design.md"
+      },
+      "wireframeMatch": {
+        "compare": "data-section · data-kind · 가장 바깥 data-component/data-placeholder 순서",
+        "placeholderMatchesAnyComponent": true,
+        "source": "기본값 승인 (와이어프레임 라운드)"
       }
     },
     "S4": {
@@ -564,7 +590,7 @@
     "S3": 3,
     "S4": 3,
     "onExceed": "stop and notify human",
-    "source": "기본값 승인",
+    "source": "기본값 승인 (SW 2회는 와이어프레임 라운드)",
     "runner": "judge/run-stage.mjs",
     "exitCodes": {
       "0": "통과",
@@ -572,7 +598,8 @@
       "3": "한도 초과",
       "4": "선행 조건 미충족",
       "2": "오류"
-    }
+    },
+    "SW": 2
   },
   "layout": {
     "frame": {

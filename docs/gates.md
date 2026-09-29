@@ -9,7 +9,7 @@
 - ★ = [story-service.md](story-service.md)의 "어기면 안 되는 것"을 위반하면 걸리는 조건
 
 ```
-S1 ─[S1 조건]─▶ S2 ─[S2 조건]─▶ ✋ 사람 승인 ─▶ S3 ─[S3 조건]─▶ S4 ─[S4 조건]─▶ 완료
+S1 ─[S1]─▶ S2 ─[S2]─▶ SW ─[SW]─▶ ✋ 사람 승인 ─▶ S3 ─[S3]─▶ S4 ─[S4]─▶ 완료
 ```
 
 ## S1 — Reference
@@ -32,11 +32,25 @@ story-work의 G1·G2(사람 컨펌)는 이 스크립트 조건으로 바뀐다.
 | S2-2 | 기간 옵션 4개(30일 / 90일 / All time / Custom)가 모두 있다 |
 | S2-3 | Production Status 화면이면 retry·delete 액션이 있다 |
 
-## ✋ 사람 승인 — S2 → S3 (P5)
+## SW — Wireframe (와이어프레임 라운드에서 추가)
 
-- 위치: story-work G3(화면 설계 컨펌)과 같은 자리. 하네스의 사람 승인은 이곳 **1곳뿐**이다.
+회색 박스 수준인지와 구조만 센다. **토큰·px·폰트·radius는 세지 않는다.** headless Chrome 렌더 값으로 판정하고, 아래가 모두 0건이면 통과.
+
+| # | 위반으로 세는 것 |
+|---|---|
+| SW-1 | 회색이 아닌 색 — 글자·배경·보더 색의 R·G·B가 다름 (완전 투명 제외) |
+| SW-2 | 이미지(`<img>`, 배경 이미지)나 그림자 |
+| SW-3 | 화면 PRD 지표·기간 옵션·액션 이름이 화면 글자로 없음 |
+| SW-4 | 골격 — S3-12와 같은 검사 (내비 262, TopBar 56, main 패딩, filter bar, 카드 그리드) |
+| ★SW-5 | 구조 — S3-8~11과 같은 검사 (Forecast/Actual, Production/Content 분리) |
+
+FME에 없는 요소(차트, 지표 카드 등)는 `data-placeholder="chart"` 같은 회색 박스로 그려도 통과한다. (사용자 확인)
+
+## ✋ 사람 승인 — SW → S3 (P5)
+
+- 위치: story-work G3(화면 설계 컨펌)과 같은 자리. 하네스의 사람 승인은 이곳 **1곳뿐**이다. 설계 문서와 와이어프레임을 **함께** 보고 승인한다.
 - 파일: `runs/<화면>/approval.md` — **사람만 쓴다.**
-- 스크립트(`judge/check-approval.mjs`)는 `approved: yes`, `stage: S2`, `s2-sha256: <해시>`가 있고 **해시가 현재 `s2/s2-spec.md`와 같은지** 확인한다. 하나라도 어긋나면 S3를 시작하지 않는다. 승인한 뒤 S2가 바뀌면 다시 승인해야 한다. (개선 3)
+- 스크립트(`judge/check-approval.mjs`)는 `approved: yes`, `stage: SW`, `approved-sha256: <해시>`가 있고 **해시가 현재 `s2/s2-spec.md` + `sw/sw-wireframe.html`과 같은지** 확인한다. 하나라도 어긋나면 S3를 시작하지 않는다. 승인한 뒤 둘 중 하나라도 바뀌면 다시 승인해야 한다.
 - 해시 줄은 `node judge/check-approval.mjs <화면> --print-hash`로 얻어 사람이 붙여 넣는다.
 
 ## S3 — HTML
@@ -65,6 +79,10 @@ story-work의 G1·G2(사람 컨펌)는 이 스크립트 조건으로 바뀐다.
 | S3-13 | radius 토큰 값이 아닌 border-radius (예: 50%, 7px) |
 | S3-14 | 글자를 가진 요소의 font-size가 `--font-size-*` 값이 아니거나, font-weight가 400/500/600/700이 아니거나, 첫 font-family가 `--font-family-*`가 아님 |
 | S3-15 | 글자 없는 버튼(아이콘 전용)이 36 × 36 / `radius-lg`가 아님, 인풋·셀렉트 높이가 36·40이 아님 |
+
+| # | 위반으로 세는 것 |
+|---|---|
+| S3-16 | 승인된 와이어프레임과 구조 순서가 다름 — `data-section` · `data-kind` · 가장 바깥 `data-component`/`data-placeholder` 순서. 와이어프레임의 placeholder 자리에는 어떤 컴포넌트든 허용 |
 
 radius "3단 규칙"(구조물 8~12, 안쪽은 한 단계 작게)은 어떤 요소가 구조물인지 기계가 알 수 없어 세지 않는다. 토큰 값인지만 센다.
 

@@ -3,8 +3,9 @@ import path from 'node:path';
 import {
   loadRules, parseArgs, readIfExists, finish, fail, loadTokenNames, sourceWarnings,
   loadTokenValues, tokenValuesByPrefix, CSS_NAMED_COLORS, renderMeasure,
-  parseCss, parseHtml, elements, textContent, ancestors, contains,
+  parseCss, parseHtml, elements,
 } from './lib.mjs';
+import { checkStructure, checkSkeleton, structureSequence } from './structure.mjs';
 
 const args = parseArgs(process.argv.slice(2));
 const rules = loadRules();
@@ -116,45 +117,8 @@ for (const n of elements(root, (n) => compAttr in n.attrs)) {
   if (!compOk.has(n.attrs[compAttr])) v('S3-7', htmlFile, n.line, `${compAttr}="${n.attrs[compAttr]}" 는 허용 목록에 없음`);
 }
 
-// ★ S3-8 / S3-9 forecast·actual 분리
-const fa = g.forecastActual;
-const kindEls = (k) => elements(root, (n) => n.attrs[fa.attribute] === k);
-const forecast = kindEls('forecast');
-const actual = kindEls('actual');
-const sectionOf = (n) => ancestors(n).find((a) => a.tag === 'section' || 'data-section' in a.attrs) || null;
-const fSections = new Set(forecast.map(sectionOf));
-for (const a of actual) {
-  if (fSections.has(sectionOf(a))) v('S3-8', htmlFile, a.line, 'actual 요소가 forecast 요소와 같은 섹션에 있음');
-}
-const classes = (n) => (n.attrs.class || '').split(/\s+/).filter(Boolean);
-const fClasses = new Set(forecast.flatMap(classes));
-for (const a of actual) {
-  const shared = classes(a).filter((c) => fClasses.has(c));
-  if (shared.length) v('S3-8', htmlFile, a.line, `forecast와 같은 클래스 사용: ${shared.join(', ')}`);
-}
-for (const [kind, label] of Object.entries(fa.values)) {
-  for (const n of kindEls(kind)) {
-    if (!new RegExp(`\\b${label}\\b`, 'i').test(textContent(n))) v('S3-9', htmlFile, n.line, `${fa.attribute}="${kind}" 요소에 "${label}" 라벨 없음`);
-  }
-}
-
-// ★ S3-10 production·content 분리
-const pc = g.productionContent;
-const secEls = (k) => elements(root, (n) => n.attrs[pc.attribute] === k);
-const [pName, cName] = pc.values;
-for (const p of secEls(pName)) {
-  for (const c of secEls(cName)) {
-    if (contains(p, c) || contains(c, p)) v('S3-10', htmlFile, Math.max(p.line, c.line), `${pName}와 ${cName} 섹션이 중첩됨`);
-  }
-}
-
-// S3-11 ★ 조건에 필요한 속성이 화면에 있는지 (requiredOnScreens)
-const req = g.requiredOnScreens[args.screen] || {};
-for (const [attr, values] of Object.entries(req)) {
-  for (const val of values) {
-    if (!elements(root, (n) => n.attrs[attr] === val).length) v('S3-11', htmlFile, null, `${attr}="${val}" 요소가 없음`);
-  }
-}
+// ★ S3-8 ~ S3-11 구조 (Forecast/Actual, Production/Content) — SW와 같은 코드
+for (const x of checkStructure(rules, root, args.screen)) v(x.id, htmlFile, x.line, x.detail);
 
 // ---------- 렌더 값 판정 (S3-12 ~ S3-15) ----------
 const values = loadTokenValues(rules);
@@ -164,55 +128,8 @@ if (measured.error) v('S3-render', htmlFile, null, measured.error);
 const els = measured.elements || [];
 const label = (e) => `<${e.tag}${e.comp ? ` data-component="${e.comp}"` : ''}> "${e.label}"`;
 
-// S3-12 Figma 골격 치수
-const L = rules.layout;
-if (!measured.error) {
-  const nav = els.filter((e) => e.comp === L.nav.component);
-  if (!nav.length) v('S3-12', htmlFile, null, `${L.nav.component} 가 없음`);
-  for (const e of nav) if (e.w !== L.nav.width) v('S3-12', htmlFile, null, `${label(e)} 폭 ${e.w} ≠ ${L.nav.width}`);
-  const top = els.filter((e) => e.comp === L.topBar.component);
-  if (!top.length) v('S3-12', htmlFile, null, `${L.topBar.component} 가 없음`);
-  for (const e of top) if (e.h !== L.topBar.height) v('S3-12', htmlFile, null, `${label(e)} 높이 ${e.h} ≠ ${L.topBar.height}`);
-  const pad = px(values.get(L.mainPadding));
-  for (const e of els.filter((e) => e.tag === 'main')) {
-    if (px(e.padding[0]) !== pad || px(e.padding[3]) !== pad) v('S3-12', htmlFile, null, `<main> padding ${e.padding[0]} / ${e.padding[3]} ≠ ${L.mainPadding}(${pad}px)`);
-  }
-}
-
-// S3-12 filter bar — Segmented Control(화면 전환)과 Filter / Select(기간)를 함께 담은 부모
-if (!measured.error) {
-  const seg = els.filter((e) => e.comp === L.screenSwitch);
-  const sel = els.filter((e) => e.comp === rules.period.control);
-  const bar = seg.map((e) => els[e.p]).find((b) => b && sel.some((f) => f.p === b.i));
-  if (!bar) v('S3-12', htmlFile, null, `filter bar 없음 — ${L.screenSwitch}와 ${rules.period.control}를 같은 부모에 둬야 함`);
-  else {
-    const fb = L.filterBar;
-    if (bar.h !== fb.height) v('S3-12', htmlFile, null, `filter bar 높이 ${bar.h} ≠ ${fb.height}`);
-    const s0 = seg.find((e) => e.p === bar.i);
-    const fs = sel.filter((e) => e.p === bar.i).sort((a, b) => a.x - b.x);
-    const toFilter = px(values.get(fb.segmentedToFilter));
-    const firstGap = fs[0].x - (s0.x + s0.w);
-    if (firstGap !== toFilter) v('S3-12', htmlFile, null, `Segmented Control → Filter 간격 ${firstGap} ≠ ${fb.segmentedToFilter}(${toFilter}px)`);
-    const filterGap = px(values.get(fb.filterGap));
-    for (let k = 1; k < fs.length; k++) {
-      const gap = fs[k].x - (fs[k - 1].x + fs[k - 1].w);
-      if (gap !== filterGap) v('S3-12', htmlFile, null, `Filter 사이 간격 ${gap} ≠ ${fb.filterGap}(${filterGap}px)`);
-    }
-  }
-
-  // 카드 그리드 — data-kind 카드를 2개 이상 담은 부모의 가로·세로 간격
-  const cg = L.cardGrid;
-  const colGap = px(values.get(cg.columnGap));
-  const rowGap = px(values.get(cg.rowGap));
-  const parents = new Map();
-  for (const e of els.filter((e) => e.kind)) parents.set(e.p, (parents.get(e.p) || 0) + 1);
-  for (const [pi, n] of parents) {
-    if (n < 2 || pi < 0) continue;
-    const g = els[pi];
-    if (px(g.columnGap) !== colGap) v('S3-12', htmlFile, null, `카드 그리드 ${label(g)} 가로 간격 ${g.columnGap} ≠ ${cg.columnGap}(${colGap}px)`);
-    if (px(g.rowGap) !== rowGap) v('S3-12', htmlFile, null, `카드 그리드 ${label(g)} 세로 간격 ${g.rowGap} ≠ ${cg.rowGap}(${rowGap}px)`);
-  }
-}
+// S3-12 Figma 골격 치수 — SW와 같은 코드
+if (!measured.error) for (const d of checkSkeleton(rules, els, values)) v('S3-12', htmlFile, null, d);
 
 // S3-13 radius는 토큰 값만
 const radiusOk = new Set(tokenValuesByPrefix(values, g.radius.tokenPrefix).map(px));
@@ -241,6 +158,22 @@ for (const e of els.filter((e) => e.tag === 'button' && e.text === '')) { // 글
 }
 for (const e of els.filter((e) => (e.tag === 'input' && !C.inputExcludeTypes.includes(e.type)) || e.tag === 'select')) {
   if (!C.inputHeights.includes(e.h)) v('S3-15', htmlFile, null, `${label(e)} 높이 ${e.h} (허용 ${C.inputHeights.join('/')})`);
+}
+
+// S3-16 승인된 와이어프레임과 구조 순서가 같은지 — 와이어프레임의 placeholder 자리는 어떤 컴포넌트든 허용
+const swHtml = readIfExists(path.join(args.run, rules.gates.SW.file));
+if (swHtml === null) v('S3-16', rules.gates.SW.file, null, '와이어프레임이 없음');
+else {
+  const want = structureSequence(rules, parseHtml(swHtml).root);
+  const got = structureSequence(rules, root);
+  const same = (w, g2) => w === g2 || (w.startsWith('placeholder:') && g2.startsWith('component:'));
+  const n = Math.max(want.length, got.length);
+  for (let k = 0; k < n; k++) {
+    if (!want[k] || !got[k] || !same(want[k], got[k])) {
+      v('S3-16', htmlFile, null, `구조 ${k + 1}번째: 와이어프레임 ${want[k] ?? '(없음)'} ↔ HTML ${got[k] ?? '(없음)'}`);
+      break; // 첫 차이만 보고한다 — 뒤는 밀려서 전부 달라진다
+    }
+  }
 }
 
 // 원본과 vendor 사본 드리프트 — 경고만

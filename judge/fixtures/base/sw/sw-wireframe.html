@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Content Overview — wireframe</title>
+  <style>
+    body { margin: 0; color: #333; background: #fff; }
+    .nav { width: 262px; background: #eee; }
+    .topbar { box-sizing: border-box; height: 56px; border-bottom: 1px solid #ccc; }
+    main { padding: 24px; }
+    .filter-bar { display: flex; align-items: center; height: 64px; gap: 8px; }
+    .box { border: 1px solid #999; background: #f2f2f2; }
+  </style>
+</head>
+<body>
+  <nav class="nav" data-component="Nav / Navigation">Analytics</nav>
+  <header class="topbar" data-component="Nav / App TopBar">Content Overview</header>
+  <main>
+    <div class="filter-bar">
+      <div class="box" data-component="Controls / Segmented Control">Content</div>
+      <div class="box" data-component="Controls / Filter / Select">30일 · 90일 · All time · Custom</div>
+    </div>
+    <section data-section="content" id="actual">
+      <h2>Content mix</h2>
+      <p>Reels · Posts · Carousels · Stories</p>
+      <p>Instagram · Facebook · TikTok — Views · Likes</p>
+      <h2>Top performers</h2>
+      <article class="box actual" data-kind="actual">Actual — Reel A</article>
+    </section>
+    <section data-section="content" id="forecast">
+      <h2>Top forecast performers</h2>
+      <article class="box-forecast" data-kind="forecast">Forecast — Reel B</article>
+    </section>
+  </main>
+</body>
+</html>

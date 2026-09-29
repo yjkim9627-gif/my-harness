@@ -10,6 +10,7 @@ const UNLOCK = path.join(HARNESS, '.rules-unlock'); // 사람이 직접 만들�
 const AGENT_FOLDERS = {
   's1-reference': /^runs\/[\w-]+\/s1\//,
   's2-spec': /^runs\/[\w-]+\/s2\//,
+  'sw-wireframe': /^runs\/[\w-]+\/sw\//,
   's3-html': /^runs\/[\w-]+\/s3\//,
   's4-figma': /^runs\/[\w-]+\/s4\/s4-figma\.json$/,
   judge: null, // 파일을 쓰지 않는다. verdict는 스크립트가 쓴다.
@@ -18,7 +19,7 @@ const PROTECTED = [
   { re: /^rules\.json$/, who: '사람', unlockable: true },
   { re: /^\.rules-unlock$/, who: '사람' },
   { re: /^runs\/[\w-]+\/approval\.md$/, who: '사람' },
-  { re: /^runs\/[\w-]+\/verdict-s\d\.json$/, who: '판정 스크립트' },
+  { re: /^runs\/[\w-]+\/verdict-s(\d|w)\.json$/, who: '판정 스크립트' },
   { re: /^runs\/[\w-]+\/s4\/s4-compare\.json$/, who: '판정 스크립트' },
   { re: /^runs\/[\w-]+\/state\.json$/, who: 'judge/run-stage.mjs' },
 ];
@@ -59,9 +60,9 @@ if (['Write', 'Edit', 'MultiEdit', 'NotebookEdit'].includes(tool)) {
 
 if (tool === 'Bash') {
   const cmd = String(ti.command || '');
-  const isJudgeRun = /^\s*node\s+\S*judge\/(judge-s\d|check-approval|run-stage|selftest)\.mjs(\s|$)/.test(cmd) && !/[;&|`$><]/.test(cmd);
+  const isJudgeRun = /^\s*node\s+\S*judge\/(judge-s(\d|w)|check-approval|run-stage|selftest)\.mjs(\s|$)/.test(cmd) && !/[;&|`$><]/.test(cmd);
   if (agent === 'judge' && !isJudgeRun) block('judge 는 node judge/*.mjs 실행만 할 수 있다.');
-  if (!isJudgeRun && /(rules\.json|\.rules-unlock|approval\.md|verdict-s\d\.json|s4-compare\.json|state\.json)/.test(cmd) &&
+  if (!isJudgeRun && /(rules\.json|\.rules-unlock|approval\.md|verdict-s(\d|w)\.json|s4-compare\.json|state\.json)/.test(cmd) &&
       /(>|\btee\b|\bcp\b|\bmv\b|\brm\b|\bsed\s+-i|\btouch\b|writeFile|open\([^)]*['"]w)/.test(cmd)) {
     block('보호 파일(rules.json, approval.md, verdict, s4-compare, state)을 셸로 바꿀 수 없다.');
   }

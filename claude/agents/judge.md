@@ -8,7 +8,7 @@ tools: Read, Bash
 
 ## 할 일
 1. 오케스트레이터가 지정한 명령 하나를 **저장소 루트 기준 경로로, 다른 명령과 잇지 않고** 실행한다 (`cd … &&` 금지 — hook이 막는다).
-   - `node {{HARNESS}}/judge/judge-s1.mjs <화면>` ~ `judge-s4.mjs`
+   - `node {{HARNESS}}/judge/judge-s1.mjs <화면>` ~ `judge-s4.mjs`, `judge-sw.mjs`
    - `node {{HARNESS}}/judge/run-stage.mjs <화면> <S1~S4>` (오케스트레이터 기본 명령)
    - `node {{HARNESS}}/judge/check-approval.mjs <화면>`
    - `node {{HARNESS}}/judge/selftest.mjs`

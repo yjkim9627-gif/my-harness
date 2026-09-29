@@ -30,9 +30,11 @@ P9 정하지 않은 값은 source를 붙인다
 ## 흐름 (docs/pipeline.md)
 S1 s1-reference → run-stage S1
 S2 s2-spec      → run-stage S2
-✋ 사람 승인: runs/<화면>/approval.md 에 `approved: yes`, `stage: S2`, `s2-sha256: …`
+SW sw-wireframe → run-stage SW (회색 박스 와이어프레임)
+✋ 사람 승인: 설계 문서 + 와이어프레임을 함께 보고
+   runs/<화면>/approval.md 에 `approved: yes`, `stage: SW`, `approved-sha256: …`
    해시 줄은 `node judge/check-approval.mjs <화면> --print-hash` 로 사용자에게 보여준다. approval.md는 사용자가 쓴다.
-S3 s3-html      → run-stage S3 (승인이 없거나 S2가 바뀌었으면 exit 4)
+S3 s3-html      → run-stage S3 (승인이 없거나 S2·와이어프레임이 바뀌었으면 exit 4)
 S4 s4-figma     → run-stage S4 (Figma REST 재조회, FIGMA_TOKEN 필요)
 
 매 단계:
@@ -43,13 +45,15 @@ S4 s4-figma     → run-stage S4 (Figma REST 재조회, FIGMA_TOKEN 필요)
 4. exit code로 다음 행동:
    0 통과 → 다음 단계 / 1 실패 → 같은 단계 재시도 (S4 원인이 HTML이면 S3) /
    3 한도 초과 · 2 오류 → 멈추고 사용자에게 실패 항목과 위치를 보고 / 4 → 이전 단계 또는 승인 대기
-   한도: S2 2회 · S3 3회 · S4 3회 (rules.json retry). 자동으로 계속하지 않는다.
+   한도: S2 2회 · SW 2회 · S3 3회 · S4 3회 (rules.json retry). 자동으로 계속하지 않는다.
+   SW가 통과하면 와이어프레임 파일 경로를 사용자에게 보여주고 승인을 기다린다.
 
 ## 쓰기 권한 (docs/roles.md, hooks/guard.mjs가 강제)
 | 누가 | 쓸 수 있는 곳 |
 |---|---|
 | s1-reference | runs/<화면>/s1/ |
 | s2-spec | runs/<화면>/s2/ |
+| sw-wireframe | runs/<화면>/sw/ |
 | s3-html | runs/<화면>/s3/ |
 | s4-figma | runs/<화면>/s4/s4-figma.json + Figma 파일 IwmNcXuHeFy7fmv5uhQdwa "Analytics" 페이지 |
 | judge (스크립트) | verdict-*.json, s4/s4-compare.json |

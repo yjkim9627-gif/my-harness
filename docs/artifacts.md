@@ -14,10 +14,11 @@
 |---|---|---|
 | S1 | `s1/s1-reference.md` | S1 에이전트 |
 | S2 | `s2/s2-spec.md` | S2 에이전트 |
+| SW | `sw/sw-wireframe.html` | SW 에이전트 |
 | S3 | `s3/s3-screen.html`, `s3/s3-screen.css` | S3 에이전트 |
 | S4 | `s4/s4-figma.json` — Figma 파일 키 · 노드 ID · 컴포넌트 매핑 | S4 에이전트 |
 | S4 | `s4/s4-compare.json` — HTML↔Figma 대조 결과 | 판정 스크립트 |
-| 판정 | `verdict-s3.json`, `verdict-s4.json` | 판정 스크립트 |
+| 판정 | `verdict-s1.json` ~ `verdict-s4.json`, `verdict-sw.json` | 판정 스크립트 |
 | 상태 | `state.json` | `judge/run-stage.mjs` |
 
 **Figma 저장 위치**

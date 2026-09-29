@@ -16,6 +16,7 @@ const HTML = 's3/s3-screen.html';
 const CSS = 's3/s3-screen.css';
 const S1 = 's1/s1-reference.md';
 const S2 = 's2/s2-spec.md';
+const SW = 'sw/sw-wireframe.html';
 const doc = (j) => j.nodes['10:1'].document;
 const body = (j) => doc(j).children.find((c) => c.id === '10:5');
 const CO = 'content-overview';
@@ -31,6 +32,15 @@ const cases = [
   ['S2-1 지표 누락', 'S2', 'production-status', ['S2-1'], { [S2]: [['- Compute spend', '- 비용']] }],
   ['S2-2 기간 누락', 'S2', 'production-status', ['S2-2'], { [S2]: [[' / Custom', '']] }],
   ['S2-3 액션 누락', 'S2', 'production-status', ['S2-3'], { [S2]: [['Retry, ', '']] }],
+
+  ['SW base', 'SW', CO, [], {}],
+  ['SW placeholder 통과', 'SW', CO, [], { [SW]: [['<h2>Top performers</h2>', '<h2>Top performers</h2><div class="box" data-placeholder="chart">chart</div>']] }],
+  ['SW-1 회색 아닌 색', 'SW', CO, ['SW-1'], { [SW]: [['background: #eee;', 'background: #eef;']] }],
+  ['SW-2 그림자', 'SW', CO, ['SW-2'], { [SW]: [['main { padding: 24px; }', 'main { padding: 24px; box-shadow: 0 1px 2px #000; }']] }],
+  ['SW-2 이미지', 'SW', CO, ['SW-2'], { [SW]: [['<h2>Content mix</h2>', '<h2>Content mix</h2><img src="x.png" width="10" height="10">']] }],
+  ['SW-3 지표 글자 없음', 'SW', CO, ['SW-3'], { [SW]: [['— Views · Likes', '— Likes']] }],
+  ['SW-4 내비 폭', 'SW', CO, ['SW-4'], { [SW]: [['width: 262px;', 'width: 200px;']] }],
+  ['★SW-5 같은 섹션', 'SW', CO, ['SW-4', 'SW-5'], { [SW]: [['<h2>Top performers</h2>', '<h2>Top performers</h2><article class="f2" data-kind="forecast">Forecast — Reel C</article>']] }],
 
   ['S3 base', 'S3', CO, [], {}],
   ['S3-1 raw hex', 'S3', CO, ['S3-1'], { [CSS]: [['.main { padding: var(--spacing-2xl); background: var(--color-neutral-0); }', '.main { padding: var(--spacing-2xl); background: #ffffff; }']] }],
@@ -49,24 +59,27 @@ const cases = [
   ['S3-4 text-shadow', 'S3', CO, ['S3-4'], { [CSS]: [['.popover {', '.popover { text-shadow: var(--shadow-md);']] }],
   ['S3-5 brand-primary 위치', 'S3', CO, ['S3-5'], { [CSS]: [['.cta-link {', '.link {']] }],
   ['S3-6 dashed 위치', 'S3', CO, ['S3-6'], { [CSS]: [['.empty-slot {', '.card-slot {']] }],
-  ['S3-7 컴포넌트 이름', 'S3', CO, ['S3-7', 'S3-12'], { [HTML]: [['"Nav / Navigation"', '"Nav / Sidebar"']] }],
-  ['★S3-8 같은 섹션', 'S3', CO, ['S3-8', 'S3-12'], // 그리드 없이 카드 2개 → 카드 간격도 걸림
+  ['S3-7 컴포넌트 이름', 'S3', CO, ['S3-7', 'S3-12', 'S3-16'], { [HTML]: [['"Nav / Navigation"', '"Nav / Sidebar"']] }],
+  ['★S3-8 같은 섹션', 'S3', CO, ['S3-8', 'S3-12', 'S3-16'], // 그리드 없이 카드 2개 → 카드 간격도 걸림
     { [HTML]: [['<h2>Top forecast performers</h2>', '<h2>Top forecast performers</h2><article class="actual-card-2" data-kind="actual"><span>Actual</span> Reel C</article>']] }],
   ['★S3-8 같은 카드 클래스', 'S3', CO, ['S3-8'], { [HTML]: [['class="actual-card"', 'class="card actual-card"'], ['class="forecast-card"', 'class="card forecast-card"']] }],
   ['★S3-9 라벨 없음', 'S3', CO, ['S3-9'], { [HTML]: [['<span class="badge">Forecast</span>', '<span class="badge">Predicted</span>']] }],
-  ['★S3-10 섹션 중첩', 'S3', CO, ['S3-10'], { [HTML]: [['<h2>Top performers</h2>', '<h2>Top performers</h2><div data-section="production">Queue</div>']] }],
-  ['S3-11 forecast 없음', 'S3', CO, ['S3-11'], { [HTML]: [[' data-kind="forecast"', '']] }],
-  ['S3-12 내비 없음', 'S3', CO, ['S3-12'], { [HTML]: [[' data-component="Nav / Navigation"', '']] }],
+  ['★S3-10 섹션 중첩', 'S3', CO, ['S3-10', 'S3-16'], { [HTML]: [['<h2>Top performers</h2>', '<h2>Top performers</h2><div data-section="production">Queue</div>']] }],
+  ['S3-11 forecast 없음', 'S3', CO, ['S3-11', 'S3-16'], { [HTML]: [[' data-kind="forecast"', '']] }],
+  ['S3-12 내비 없음', 'S3', CO, ['S3-12', 'S3-16'], { [HTML]: [[' data-component="Nav / Navigation"', '']] }],
   ['S3-12 TopBar 높이', 'S3', CO, ['S3-12'], { [CSS]: [['.topbar { height: 56px; }', '.topbar { height: 64px; }']] }],
   ['S3-12 main 패딩', 'S3', CO, ['S3-12'], { [CSS]: [['padding: var(--spacing-2xl)', 'padding: var(--spacing-3xl)']] }],
   ['S3-12+2 내비 폭 263', 'S3', CO, ['S3-2', 'S3-12'], { [CSS]: [['.nav { width: 262px; }', '.nav { width: 263px; }']] }],
-  ['S3-12 filter bar 없음', 'S3', CO, ['S3-12'], { [HTML]: [[' data-component="Controls / Filter / Select"', '']] }],
+  ['S3-12 filter bar 없음', 'S3', CO, ['S3-12', 'S3-16'], { [HTML]: [[' data-component="Controls / Filter / Select"', '']] }],
   ['S3-12 filter bar 높이', 'S3', CO, ['S3-12'], { [CSS]: [['height: 64px;', 'height: 56px;']] }],
   ['S3-12 세그먼트→필터 간격', 'S3', CO, ['S3-12'], { [CSS]: [['gap: var(--spacing-sm); }', 'gap: var(--spacing-md); }']] }],
-  ['S3-12 필터 사이 간격', 'S3', CO, ['S3-12'], { [HTML]: [['>30일</div>', '>30일</div><div class="filter" data-component="Controls / Filter / Select">Instagram</div>']] }],
-  ['필터 2개 간격 12 통과', 'S3', CO, [], { [HTML]: [['>30일</div>', '>30일</div><div class="filter" data-component="Controls / Filter / Select">Instagram</div>']], [CSS]: [['.main {', '.filter + .filter { margin-left: var(--spacing-xs); }\n.main {']] }],
-  ['S3-12 카드 그리드 간격', 'S3', CO, ['S3-12'], { [HTML]: [['<article class="actual-card" data-kind="actual"><span class="label">Actual</span> Reel A</article>', '<div class="grid"><article class="actual-card" data-kind="actual"><span class="label">Actual</span> Reel A</article><article class="actual-card" data-kind="actual"><span class="label">Actual</span> Reel C</article></div>']], [CSS]: [['.main {', '.grid { display: grid; grid-template-columns: 304px 304px; gap: var(--spacing-sm); }\n.main {']] }],
-  ['카드 그리드 16/24 통과', 'S3', CO, [], { [HTML]: [['<article class="actual-card" data-kind="actual"><span class="label">Actual</span> Reel A</article>', '<div class="grid"><article class="actual-card" data-kind="actual"><span class="label">Actual</span> Reel A</article><article class="actual-card" data-kind="actual"><span class="label">Actual</span> Reel C</article></div>']], [CSS]: [['.main {', '.grid { display: grid; grid-template-columns: 304px 304px; gap: var(--spacing-2xl) var(--spacing-lg); }\n.main {']] }],
+  ['S3-12 필터 사이 간격', 'S3', CO, ['S3-12', 'S3-16'], { [HTML]: [['>30일</div>', '>30일</div><div class="filter" data-component="Controls / Filter / Select">Instagram</div>']] }],
+  ['필터 2개 간격 12 통과', 'S3', CO, [], { [SW]: [['>30일 · 90일 · All time · Custom</div>', '>30일 · 90일 · All time · Custom</div><div data-component="Controls / Filter / Select">Instagram</div>']], [HTML]: [['>30일</div>', '>30일</div><div class="filter" data-component="Controls / Filter / Select">Instagram</div>']], [CSS]: [['.main {', '.filter + .filter { margin-left: var(--spacing-xs); }\n.main {']] }],
+  ['S3-12 카드 그리드 간격', 'S3', CO, ['S3-12', 'S3-16'], { [HTML]: [['<article class="actual-card" data-kind="actual"><span class="label">Actual</span> Reel A</article>', '<div class="grid"><article class="actual-card" data-kind="actual"><span class="label">Actual</span> Reel A</article><article class="actual-card" data-kind="actual"><span class="label">Actual</span> Reel C</article></div>']], [CSS]: [['.main {', '.grid { display: grid; grid-template-columns: 304px 304px; gap: var(--spacing-sm); }\n.main {']] }],
+  ['카드 그리드 16/24 통과', 'S3', CO, [], { [SW]: [['Actual — Reel A</article>', 'Actual — Reel A</article><article data-kind="actual">Actual — Reel C</article>']], [HTML]: [['<article class="actual-card" data-kind="actual"><span class="label">Actual</span> Reel A</article>', '<div class="grid"><article class="actual-card" data-kind="actual"><span class="label">Actual</span> Reel A</article><article class="actual-card" data-kind="actual"><span class="label">Actual</span> Reel C</article></div>']], [CSS]: [['.main {', '.grid { display: grid; grid-template-columns: 304px 304px; gap: var(--spacing-2xl) var(--spacing-lg); }\n.main {']] }],
+  ['S3-16 와이어프레임에만 박스', 'S3', CO, ['S3-16'], { [SW]: [['<div class="filter-bar">', '<div class="box" data-placeholder="chart">chart</div><div class="filter-bar">']] }],
+  ['S3-16 placeholder↔컴포넌트 통과', 'S3', CO, [], { [SW]: [['<h2>Top performers</h2>', '<h2>Top performers</h2><div class="box" data-placeholder="chart">chart</div>']], [HTML]: [['<h2>Top performers</h2>', '<h2>Top performers</h2><div data-component="Badge">x</div>']] }],
+  ['S3-16 와이어프레임 없음', 'S3', CO, ['S3-16'], { [SW]: [[/[\s\S]*/, '']] }],
   ['S3-13 radius 50%', 'S3', CO, ['S3-13'], { [CSS]: [['.forecast-card { background: var(--color-neutral-100); border-radius: var(--radius-lg); }', '.forecast-card { background: var(--color-neutral-100); border-radius: 50%; }']] }],
   ['S3-14 font-size', 'S3', CO, ['S3-14'], { [CSS]: [['h2 { font-size: var(--font-size-text-xl);', 'h2 { font-size: larger;']] }],
   ['S3-14 font-weight', 'S3', CO, ['S3-14'], { [CSS]: [['font-weight: var(--font-weight-semibold)', 'font-weight: 800']] }],
@@ -153,15 +166,23 @@ const node = (script, ...a) => spawnSync(process.execPath, [path.join(DIR, scrip
   const { run, figmaPath } = prepare();
   fs.rmSync(path.join(run, 'state.json'), { force: true });
   const stage = (s, screen = CO) => node('run-stage.mjs', screen, s, '--run', run, '--figma-json', figmaPath).status;
-  const hash = crypto.createHash('sha256').update(fs.readFileSync(path.join(run, S2))).digest('hex');
+  const hash = (() => {
+    const h = crypto.createHash('sha256');
+    for (const f of [S2, SW]) h.update(`${f}\n`).update(fs.readFileSync(path.join(run, f))).update('\n');
+    return h.digest('hex');
+  })();
 
   check('approval 없음 → 미승인', node('check-approval.mjs', CO, '--run', run).status === 1);
-  fs.writeFileSync(path.join(run, 'approval.md'), `approved: yes\nstage: S2\ns2-sha256: ${hash}\n`);
+  fs.writeFileSync(path.join(run, 'approval.md'), `approved: yes\nstage: SW\napproved-sha256: ${hash}\n`);
   check('approval + 해시 일치 → 승인', node('check-approval.mjs', CO, '--run', run).status === 0);
-  check('--print-hash 출력이 실제 해시와 같음', node('check-approval.mjs', CO, '--run', run, '--print-hash').stdout.trim() === `s2-sha256: ${hash}`);
+  check('--print-hash 출력이 실제 해시와 같음', node('check-approval.mjs', CO, '--run', run, '--print-hash').stdout.trim() === `approved-sha256: ${hash}`);
   fs.appendFileSync(path.join(run, S2), '\n- 승인 뒤 추가된 줄\n');
   check('승인 뒤 S2 변경 → 미승인', node('check-approval.mjs', CO, '--run', run).status === 1);
   fs.writeFileSync(path.join(run, S2), fs.readFileSync(path.join(BASE, S2)));
+  check('S2 되돌리면 → 다시 승인', node('check-approval.mjs', CO, '--run', run).status === 0);
+  fs.appendFileSync(path.join(run, SW), '\n<!-- 승인 뒤 바뀐 와이어프레임 -->\n');
+  check('승인 뒤 와이어프레임 변경 → 미승인', node('check-approval.mjs', CO, '--run', run).status === 1);
+  fs.writeFileSync(path.join(run, SW), fs.readFileSync(path.join(BASE, SW)));
 
   check('S1 없이 S2 → 4 (선행 조건)', stage('S2') === 4);
   check('S1 통과 → 0', stage('S1') === 0);
@@ -178,7 +199,7 @@ const node = (script, ...a) => spawnSync(process.execPath, [path.join(DIR, scrip
   const stage = (s) => node('run-stage.mjs', 'production-status', s, '--run', run, '--figma-json', figmaPath).status;
   // S1 fixture는 content-overview용 → production-status에서는 screen 불일치로 실패. state를 직접 만들 수 없으니 S2 선행만 본다.
   check('S3는 승인 없으면 4', (() => {
-    fs.writeFileSync(path.join(run, 'state.json'), JSON.stringify({ screen: 'production-status', stage: 'S3', passed: ['S1', 'S2'], attempts: {}, lastVerdict: null, halted: null }));
+    fs.writeFileSync(path.join(run, 'state.json'), JSON.stringify({ screen: 'production-status', stage: 'S3', passed: ['S1', 'S2', 'SW'], attempts: {}, lastVerdict: null, halted: null }));
     return stage('S3') === 4;
   })());
   fs.rmSync(run, { recursive: true, force: true });

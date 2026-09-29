@@ -48,5 +48,5 @@ Claude Code는 저장소 루트 `.claude/`만 인식한다.
 ## 4. design.md 기준 경로
 
 - 판정 스크립트는 `rules.json`의 `sources.design` 경로 하나만 읽는다. 현재 `components/ai-social-media/design.md`. "가장 최근 파일"을 매번 찾지 않는다.
-- 사본 `harness/reference/design.md`는 두되 판정에 쓰지 않는다.
-- 사본이 원본과 다르면 `judge-s3.mjs`가 **경고만** 낸다. 실패로 처리하지 않는다.
+- 사본은 `harness/vendor/design.md`, `harness/vendor/tokens.css` 두 개다. 원본이 있으면 판정에 쓰지 않고, 원본이 없는 컴퓨터(my-harness만 clone)에서만 읽는다.
+- 원본과 사본이 다르면 `judge-s3.mjs`가 **경고만** 낸다. 실패로 처리하지 않는다. 사본은 사람이 다시 복사해 갱신한다.

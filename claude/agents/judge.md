@@ -4,14 +4,14 @@ description: Analytics 하네스 판정자 — judge 스크립트를 실행하�
 tools: Read, Bash
 ---
 
-너는 Analytics 하네스의 읽기 전용 판정자다. 하네스 루트는 `prototypes/ai-social-media/analytics/harness/`.
+너는 Analytics 하네스의 읽기 전용 판정자다. 하네스 루트는 `{{HARNESS}}/`.
 
 ## 할 일
 1. 오케스트레이터가 지정한 명령 하나를 **저장소 루트 기준 경로로, 다른 명령과 잇지 않고** 실행한다 (`cd … &&` 금지 — hook이 막는다).
-   - `node prototypes/ai-social-media/analytics/harness/judge/judge-s1.mjs <화면>` ~ `judge-s4.mjs`
-   - `node prototypes/ai-social-media/analytics/harness/judge/run-stage.mjs <화면> <S1~S4>` (오케스트레이터 기본 명령)
-   - `node prototypes/ai-social-media/analytics/harness/judge/check-approval.mjs <화면>`
-   - `node prototypes/ai-social-media/analytics/harness/judge/selftest.mjs`
+   - `node {{HARNESS}}/judge/judge-s1.mjs <화면>` ~ `judge-s4.mjs`
+   - `node {{HARNESS}}/judge/run-stage.mjs <화면> <S1~S4>` (오케스트레이터 기본 명령)
+   - `node {{HARNESS}}/judge/check-approval.mjs <화면>`
+   - `node {{HARNESS}}/judge/selftest.mjs`
 2. 스크립트가 출력한 JSON을 그대로 근거로, 아래 형식으로 보고한다.
    - 결과: 스크립트의 `pass` 값 그대로 (PASS / FAIL)
    - 위반: 규칙 id · 파일:줄 · 내용 (스크립트 출력 그대로)

@@ -10,38 +10,40 @@ AI Social Media 제품의 Analytics 화면을 **S1 레퍼런스 → S2 설계 �
 | [rules.json](rules.json) | 규칙 SSOT — 판정 스크립트가 읽는 유일한 규칙 파일 (사람만 수정) |
 | [judge/](judge/selftest.mjs) | `run-stage.mjs`(단계 실행기), `judge-s1~s4.mjs`, `check-approval.mjs`, `selftest.mjs` + fixtures |
 | [hooks/guard.mjs](hooks/guard.mjs) | 쓰기 권한 hook |
-| [claude/](claude/settings.json) | 에이전트 5개와 hook 설정의 **배포용 사본** (아래 설치 참고) |
-| [reference/](reference/figma-reference.md) | Figma 골격, design.md 사본 |
+| [claude/](claude/settings.json) | 에이전트 5개·hook 설정·루트 CLAUDE.md 안내의 **템플릿** — `setup.sh`가 설치 |
+| [vendor/](vendor/design.md) | `tokens.css`, `design.md` 스냅샷 — 원본이 없는 컴퓨터에서 사용 |
+| [setup.sh](setup.sh) | 설치 스크립트 |
+| [reference/](reference/figma-reference.md) | Figma 골격 |
 | `runs/<화면>/` | 실행 산출물 (git에 올리지 않음) |
 
 ## 설치
 
-이 하네스는 `design-prototype` 저장소의 `prototypes/ai-social-media/analytics/harness/` 위치에 있다고 가정한다.
-판정 스크립트는 저장소 루트의 `tokens/tokens.css`와 `components/ai-social-media/design.md`를 읽는다 (이 저장소에는 없음).
-
-Claude Code는 저장소 루트의 `.claude/`만 읽으므로, `claude/`의 사본을 루트로 복사한다.
-
 ```bash
-cp -R claude/agents/. ../../../../.claude/agents/
-cp claude/settings.json ../../../../.claude/settings.json
+git clone https://github.com/yjkim9627-gif/my-harness.git
+cd my-harness
+bash setup.sh
 ```
 
-루트 `CLAUDE.md`에 아래 안내를 추가한다.
+design-prototype 안에서 쓰려면 폴더 이름까지 맞춰 clone한다: `git clone https://github.com/yjkim9627-gif/my-harness.git design-prototype/prototypes/ai-social-media/analytics/harness`
 
-```markdown
-## 하네스
+`setup.sh`가 위치를 보고 두 가지 방식 중 하나로 설치한다.
 
-- Analytics 화면 작업("<화면> 만들어줘 / 판정해줘 / 승인했어", "하네스 상태 알려줘")은
-  `prototypes/ai-social-media/analytics/harness/CLAUDE.md`를 먼저 읽고 그대로 따른다.
-```
+| 어디에 clone했나 | 방식 | Claude 세션을 여는 곳 | tokens·design.md |
+|---|---|---|---|
+| `design-prototype/prototypes/ai-social-media/analytics/harness` | repo | `design-prototype` 루트 | 원본 |
+| 그 밖의 아무 곳 | standalone | 이 폴더 | `vendor/` 사본 |
 
-`claude/`는 사본이다. 루트 `.claude/`의 에이전트·설정을 고치면 여기에도 다시 복사해야 한다.
+하는 일: Node·Chrome 확인 → `claude/` 템플릿을 경로에 맞게 채워 `.claude/`(에이전트 5개 + hook)에 설치 → (repo 방식) 루트 `CLAUDE.md`에 안내 추가 → selftest.
+여러 번 실행해도 hook·안내가 중복으로 들어가지 않는다.
 
-## 필요 환경
+**사람이 직접 해야 하는 것** — setup.sh 마지막에 다시 알려준다.
+- `export FIGMA_TOKEN="…"` (S4 Figma 재조회)
+- Claude 앱에서 uibowl · Figma 연결(MCP) 켜기
+- Chrome 경로가 기본값과 다르면 `export HARNESS_CHROME="…"`
 
-- Node.js 20+ (추가 패키지 없음)
-- Google Chrome — S3 렌더 판정 (`rules.json gates.S3.render.chrome`)
-- `FIGMA_TOKEN` 환경변수 — S4 Figma 재조회
+`claude/`는 템플릿이고 `.claude/`는 설치 결과다. 에이전트를 고칠 때는 `claude/`를 고치고 `setup.sh`를 다시 실행한다.
+
+`vendor/tokens.css`, `vendor/design.md`는 design-prototype 원본의 스냅샷이다. 원본이 있으면 원본으로 판정하고, 둘이 다르면 판정 결과에 경고가 뜬다. 그때 사본을 다시 복사한다.
 
 ## 검증
 

@@ -3,7 +3,7 @@ name: s4-figma
 description: Analytics 하네스 S4 — S3 HTML 화면을 FME 라이브러리 컴포넌트로 Figma에 옮기고 runs/<화면>/s4/s4-figma.json을 쓴다. 오케스트레이터가 S3 통과 뒤 호출한다.
 ---
 
-너는 Analytics 하네스의 S4 에이전트다. 하네스 루트는 `prototypes/ai-social-media/analytics/harness/`.
+너는 Analytics 하네스의 S4 에이전트다. 하네스 루트는 `{{HARNESS}}/`.
 
 ## 입력
 - 화면 slug, `runs/<화면>/s3/s3-screen.html`, `s3-screen.css`

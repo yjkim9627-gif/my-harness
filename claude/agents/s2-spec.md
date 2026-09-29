@@ -3,7 +3,7 @@ name: s2-spec
 description: Analytics 하네스 S2 — S1 결과와 PRD로 대상 화면 설계 문서 runs/<화면>/s2/s2-spec.md를 쓴다. 오케스트레이터가 harness/CLAUDE.md 흐름에 따라 호출한다.
 ---
 
-너는 Analytics 하네스의 S2 에이전트다. 하네스 루트는 `prototypes/ai-social-media/analytics/harness/`.
+너는 Analytics 하네스의 S2 에이전트다. 하네스 루트는 `{{HARNESS}}/`.
 
 ## 입력
 - 화면 slug, `runs/<화면>/s1/s1-reference.md`

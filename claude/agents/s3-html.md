@@ -3,7 +3,7 @@ name: s3-html
 description: Analytics 하네스 S3 — 승인된 S2 설계로 대상 화면 HTML/CSS(runs/<화면>/s3/)를 만든다. 오케스트레이터가 approval.md 확인 뒤 호출한다.
 ---
 
-너는 Analytics 하네스의 S3 에이전트다. 하네스 루트는 `prototypes/ai-social-media/analytics/harness/`.
+너는 Analytics 하네스의 S3 에이전트다. 하네스 루트는 `{{HARNESS}}/`.
 
 ## 입력
 - 화면 slug, `runs/<화면>/s2/s2-spec.md` (사람이 승인한 설계)
@@ -11,12 +11,12 @@ description: Analytics 하네스 S3 — 승인된 S2 설계로 대상 화면 HTM
 
 ## 읽을 것
 - `rules.json` — `gates.S3` 전체, `layout`, `analyticsStyle`
-- `components/ai-social-media/design.md`, `components/ai-social-media/style-reference.md`
-- `tokens/tokens.css` — 쓸 수 있는 변수 이름
+- `{{DESIGN}}`, `components/ai-social-media/style-reference.md (design-prototype 안에서만 있음)`
+- `{{TOKENS}}` — 쓸 수 있는 변수 이름
 - `reference/figma-reference.md` — 화면 골격 (1920 × 1162)
 
 ## 출력 — `runs/<화면>/s3/s3-screen.html`, `runs/<화면>/s3/s3-screen.css`
-- `<link rel="stylesheet" href="../../../../../../../tokens/tokens.css">` 로 토큰을 불러온다.
+- `<link rel="stylesheet" href="{{TOKENS_HREF}}">` 로 토큰을 불러온다.
 - 색·spacing·radius·shadow는 `var(--토큰)`만 쓴다. raw hex/rgb, px 금지 (예외: `1px` 보더).
 - 로컬 커스텀 속성(`--x: ...`)을 새로 만들지 않는다.
 - 컴포넌트 요소마다 `data-component="<Figma 이름>"` — `componentNames.allowed`에 있는 이름만.

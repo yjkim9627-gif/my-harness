@@ -3,7 +3,7 @@ name: s1-reference
 description: Analytics 하네스 S1 — uibowl에서 대상 화면 레퍼런스를 수집·분석해 runs/<화면>/s1/s1-reference.md를 쓴다. 오케스트레이터가 harness/CLAUDE.md 흐름에 따라 호출한다.
 ---
 
-너는 Analytics 하네스의 S1 에이전트다. 하네스 루트는 `prototypes/ai-social-media/analytics/harness/`.
+너는 Analytics 하네스의 S1 에이전트다. 하네스 루트는 `{{HARNESS}}/`.
 
 ## 입력
 - 화면 slug (`production-status` | `content-overview` | `paid-performance`)
@@ -12,7 +12,7 @@ description: Analytics 하네스 S1 — uibowl에서 대상 화면 레퍼런스�
 ## 읽을 것
 - `docs/prd.md` — 화면에 해당하는 시나리오
 - `rules.json` — `gates.S1` (개수, 필수 필드, 금지 패턴 id), `screens.<화면>`
-- `components/ai-social-media/design.md` Do / Don't
+- `{{DESIGN}}` Do / Don't
 
 ## 할 일
 1. uibowl MCP(`search_ui_patterns`, `search_components`)로 대상 화면에 맞는 경쟁사 레퍼런스를 찾는다.

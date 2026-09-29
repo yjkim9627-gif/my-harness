@@ -1,3 +1,4 @@
 runs/
 .rules-unlock
 .DS_Store
+.claude/

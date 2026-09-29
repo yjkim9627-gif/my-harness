@@ -1,0 +1,295 @@
+:root {
+  /* ---------- Color / Neutral ---------- */
+  --color-neutral-0: #ffffff;
+  --color-neutral-25: #fafafa;
+  --color-neutral-50: #f8faff;
+  --color-neutral-75: #f7faff;
+  --color-neutral-100: #eef2fa;
+  --color-neutral-150: #e9edf6;
+  --color-neutral-175: #e5e5e5;
+  --color-neutral-200: #e3e8f2;
+  --color-neutral-250: #c3c3c3;
+  --color-neutral-300: #d6ddeb;
+  --color-neutral-350: #c5cee0;
+  --color-neutral-380: #aab2c3;
+  --color-neutral-400: #c8d1e1;
+  --color-neutral-450: #a9b2c5;
+  --color-neutral-500: #8a93a8;
+  --color-neutral-600: #687188;
+  --color-neutral-700: #475069;
+  --color-neutral-800: #0b2b55;
+  --color-neutral-900: #0f1729;
+  --color-neutral-950: #000000;
+  --color-neutral-icon: #8e97a8;
+
+  /* ---------- Color / Brand ---------- */
+  --color-brand-primary-pale: #cad4ff;
+  --color-brand-primary-light: #dce7fb;
+  --color-brand-primary-mid: #a8cbff;
+  --color-brand-primary: #4f6de6;
+  --color-brand-primary-dark: #1e5fd9;
+  --color-brand-accent: #ed7797;
+  --color-brand-link: #3182f6;
+  --color-brand-violet: #9747ff;
+
+  /* ---------- Color / Badge ---------- */
+  --color-badge-blue-text: #1e5fd9;
+  --color-badge-blue-bg: #dce7fb;
+  --color-badge-gray-text: #7c7f8d;
+  --color-badge-gray-bg: #efefef;
+  --color-badge-green-text: #027a48;
+  --color-badge-green-bg: #ecfdf3;
+  --color-badge-orange-text: #b54708;
+  --color-badge-orange-bg: #fff4e5;
+  --color-badge-pink-text: #af00b8;
+  --color-badge-pink-bg: #fbddff;
+  --color-badge-purple-text: #5355a0;
+  --color-badge-purple-bg: #e3e3f6;
+  --color-badge-red-text: #b80000;
+  --color-badge-red-bg: #ffe0e2;
+  --color-badge-teal-text: #007484;
+  --color-badge-teal-bg: #dbfeff;
+  --color-badge-yellow-text: #787331;
+  --color-badge-yellow-bg: #ffeca8;
+
+  /* ---------- Color / Semantic ---------- */
+  --color-alert-text: #ffffff;
+  --color-alert-bg: #b80000;
+  --color-error-text: #b80000;
+  --color-warning-text: #d97706;
+  /* Figma variables safezone/covered, safezone/cropped — Editor / Safe Zone Legend swatches */
+  --color-safezone-covered: #c3d6f2;
+  --color-safezone-cropped: #f2c8d8;
+
+  /* ---------- Color / Action (AI/Primary dark button — Figma: Actions/Publish Button, Actions/Button Primary) ---------- */
+  --color-action-primary-dark-gradient-start: #323232;
+  --color-action-primary-dark-gradient-end: #222222;
+
+  /* ---------- Color / Scale (Colour Popover "Defaults" palette — no exact Figma spec given yet,
+     generated as a placeholder 7-step scale per family; swap for real values once designed) ---------- */
+  /* Gray scale (placeholder — no exact Figma spec given yet) */
+  --color-scale-gray-100: #f0f0f0;
+  --color-scale-gray-200: #d6d6d6;
+  --color-scale-gray-300: #b2b2b2;
+  --color-scale-gray-400: #8c8c8c;
+  --color-scale-gray-500: #6b6b6b;
+  --color-scale-gray-600: #4c4c4c;
+  --color-scale-gray-700: #2e2e2e;
+
+  /* Red scale (placeholder — no exact Figma spec given yet) */
+  --color-scale-red-100: #fbe5e5;
+  --color-scale-red-200: #f4b9b9;
+  --color-scale-red-300: #ea7b7b;
+  --color-scale-red-400: #df3a3a;
+  --color-scale-red-500: #b81e1e;
+  --color-scale-red-600: #841515;
+  --color-scale-red-700: #4f0d0d;
+
+  /* Rose scale (placeholder — no exact Figma spec given yet) */
+  --color-scale-rose-100: #fbe4ec;
+  --color-scale-rose-200: #f5b8cc;
+  --color-scale-rose-300: #ec799f;
+  --color-scale-rose-400: #e23670;
+  --color-scale-rose-500: #bb1b50;
+  --color-scale-rose-600: #861339;
+  --color-scale-rose-700: #500b22;
+
+  /* Purple scale (placeholder — no exact Figma spec given yet) */
+  --color-scale-purple-100: #ede7f9;
+  --color-scale-purple-200: #d0beef;
+  --color-scale-purple-300: #a685e0;
+  --color-scale-purple-400: #7a47d1;
+  --color-scale-purple-500: #5a2bab;
+  --color-scale-purple-600: #401f7a;
+  --color-scale-purple-700: #271249;
+
+  /* Blue scale (placeholder — no exact Figma spec given yet) */
+  --color-scale-blue-100: #e5ecfa;
+  --color-scale-blue-200: #baccf3;
+  --color-scale-blue-300: #7d9fe8;
+  --color-scale-blue-400: #3c6fdd;
+  --color-scale-blue-500: #2050b6;
+  --color-scale-blue-600: #173982;
+  --color-scale-blue-700: #0e224e;
+
+  /* Cyan scale (placeholder — no exact Figma spec given yet) */
+  --color-scale-cyan-100: #e6f6fa;
+  --color-scale-cyan-200: #bce8f1;
+  --color-scale-cyan-300: #81d4e4;
+  --color-scale-cyan-400: #42bed7;
+  --color-scale-cyan-500: #259ab1;
+  --color-scale-cyan-600: #1b6e7e;
+  --color-scale-cyan-700: #10424c;
+
+  /* Teal scale (placeholder — no exact Figma spec given yet) */
+  --color-scale-teal-100: #e7f8f5;
+  --color-scale-teal-200: #c0ede5;
+  --color-scale-teal-300: #88ddcf;
+  --color-scale-teal-400: #4dcbb6;
+  --color-scale-teal-500: #30a692;
+  --color-scale-teal-600: #227769;
+  --color-scale-teal-700: #15473f;
+
+  /* Yellow-Green scale (placeholder — no exact Figma spec given yet) */
+  --color-scale-yellow-green-100: #f3f8e7;
+  --color-scale-yellow-green-200: #deedc0;
+  --color-scale-yellow-green-300: #c1dd88;
+  --color-scale-yellow-green-400: #a1cb4d;
+  --color-scale-yellow-green-500: #7fa630;
+  --color-scale-yellow-green-600: #5b7722;
+  --color-scale-yellow-green-700: #364715;
+
+  /* Yellow scale (placeholder — no exact Figma spec given yet) */
+  --color-scale-yellow-100: #fcf6e3;
+  --color-scale-yellow-200: #f7e7b6;
+  --color-scale-yellow-300: #f0d175;
+  --color-scale-yellow-400: #e8ba30;
+  --color-scale-yellow-500: #c19615;
+  --color-scale-yellow-600: #8a6b0f;
+  --color-scale-yellow-700: #534009;
+
+  /* Orange scale (placeholder — no exact Figma spec given yet) */
+  --color-scale-orange-100: #fceee3;
+  --color-scale-orange-200: #f7d1b6;
+  --color-scale-orange-300: #f0a875;
+  --color-scale-orange-400: #e87d30;
+  --color-scale-orange-500: #c15d15;
+  --color-scale-orange-600: #8a420f;
+  --color-scale-orange-700: #532809;
+
+  /* ---------- Spacing ---------- */
+  --spacing-1: 1px;
+  --spacing-2: 2px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-2xl: 24px;
+  --spacing-3xl: 32px;
+  --spacing-4xl: 40px;
+  --spacing-5xl: 48px;
+  --spacing-6xl: 56px;
+  --spacing-7xl: 64px;
+
+  /* ---------- Radius ---------- */
+  --radius-none: 0px;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  /* HR Tool 화면(Figma: FME_HR-Tool, Create a job 등)에서 버튼/폼 필드에 쓰이는 10px 라운드 — 기존 스케일에 없어 추가 */
+  --radius-md-lg: 10px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-full: 9999px;
+
+  /* ---------- Shadow ---------- */
+  /* Figma Effect Style: Elevation/Modal (node-id 880-6537) */
+  --shadow-modal: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  /* Figma: focus/card */
+  --shadow-focus-card: 0 0 6px var(--color-neutral-150);
+  /* Figma: Actions/Publish Button inset highlight */
+  --shadow-action-primary-dark-inset: inset 0px -1px 1.2px 0px #121212;
+  /* Figma: Editor canvas poster elevation (W:Canvas > Stage > poster) */
+  --shadow-canvas-poster: 0px 16px 48px 0px rgba(15, 23, 41, 0.35);
+  /* Figma: Editor ContextBar pb-mid toggle group elevation */
+  --shadow-toggle-pill: 0px 4px 14px 0px rgba(13, 23, 41, 0.1);
+  /* Figma: Actions/Segment Button (Poster CTA) elevation */
+  --shadow-poster-cta: 0px 8px 12px 0px rgba(0, 0, 0, 0.28);
+  /* Figma: Uploads / Folder Row / Action, Editor Cell Lg hover action button elevation */
+  --shadow-cell-action: 0px 1px 1.5px 0px rgba(15, 23, 41, 0.1), 0px 1px 0.5px 0px rgba(15, 23, 41, 0.04);
+  /* Figma Effect Style: shadow/lg — ContextBar Replace Menu and other floating popovers */
+  --shadow-popover: 0px 4px 8px 0px rgba(15, 23, 41, 0.05), 0px 12px 20px 0px rgba(15, 23, 41, 0.1);
+  /* Figma: ContextBar action popovers (Layer/Align/Flip/Opacity) elevation */
+  --shadow-context-popover: 0px 12px 10px 0px rgba(15, 23, 41, 0.1), 0px 4px 4px 0px rgba(15, 23, 41, 0.05);
+  /* Figma Effect Style: shadow/md — floating circular controls (e.g. Character grid scroll arrow) */
+  --shadow-md: 0px 2px 4px 0px rgba(15, 23, 41, 0.05), 0px 4px 8px 0px rgba(15, 23, 41, 0.08);
+
+  /* ---------- Border width ---------- */
+  --border-width-1: 1px;
+
+  /* ---------- Icon / Stroke width ---------- */
+  --icon-stroke-width: 1.6px;
+  --icon-stroke-width-12: 1.2px;
+  --icon-stroke-width-16: 1.6px;
+
+  /* ---------- Typography / Font family ---------- */
+  --font-family-display: 'DM Sans', sans-serif;
+  --font-family-text: 'DM Sans', sans-serif;
+  --font-family-badge: 'DM Sans', sans-serif;
+  --font-family-mono: 'JetBrains Mono', monospace;
+  --font-family-logo: 'Manrope', sans-serif;
+
+  /* ---------- Typography / Font weight ---------- */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ---------- Typography / Display (fixed weight per size) ---------- */
+  --font-size-display-2xl: 48px;
+  --line-height-display-2xl: 56px;
+  --font-weight-display-2xl: var(--font-weight-semibold);
+  --font-size-display-xl: 40px;
+  --line-height-display-xl: 48px;
+  --font-weight-display-xl: var(--font-weight-bold);
+  --font-size-display-lg: 32px;
+  --line-height-display-lg: 40px;
+  --font-weight-display-lg: var(--font-weight-bold);
+  --font-size-display-md: 28px;
+  --line-height-display-md: 36px;
+  --font-weight-display-md: var(--font-weight-bold);
+  --font-size-display-sm: 22px;
+  --line-height-display-sm: 30px;
+  --font-weight-display-sm: var(--font-weight-bold);
+  --font-size-display-xs: 20px;
+  --line-height-display-xs: 28px;
+  --font-weight-display-xs: var(--font-weight-semibold);
+
+  /* ---------- Typography / Text (size only, pair with a --font-weight-* token) ---------- */
+  --font-size-text-2xl: 18px;
+  --line-height-text-2xl: 28px;
+  --font-size-text-xl: 16px;
+  --line-height-text-xl: 24px;
+  --font-size-text-lg: 15px;
+  --line-height-text-lg: 22px;
+  --font-size-text-md: 14px;
+  --line-height-text-md: 22px;
+  --font-size-text-sm: 13px;
+  --line-height-text-sm: 20px;
+  --font-size-text-xs: 12px;
+  --line-height-text-xs: 18px;
+  --font-size-text-2xs: 11px;
+  --line-height-text-2xs: 16px;
+  --font-size-text-3xs: 10px;
+  --line-height-text-3xs: 14px;
+
+  /* ---------- Typography / Badge (font-size only) ---------- */
+  --font-size-badge-md: 11px;
+  --font-size-badge-sm: 10px;
+  --font-size-badge-xs: 9px;
+
+  /* ---------- Typography / Mono (size only, pair with a --font-weight-* token) ---------- */
+  --font-size-mono-lg: 14px;
+  --line-height-mono-lg: 20px;
+  --font-size-mono-md: 12px;
+  --line-height-mono-md: 18px;
+  --font-size-mono-sm: 11px;
+  --line-height-mono-sm: 16px;
+  --font-size-mono-xs: 10px;
+  --line-height-mono-xs: 14px;
+
+  /* ---------- Typography / Logo (always bold) ---------- */
+  --font-size-logo-lg: 16px;
+  --line-height-logo-lg: 20px;
+  --font-size-logo-md: 14px;
+  --line-height-logo-md: 18px;
+  --font-size-logo-sm: 12px;
+  --line-height-logo-sm: 16px;
+
+  /* ---------- Typography / Overline (always bold, uses Text font family) ---------- */
+  --font-size-overline-xs: 9px;
+  --line-height-overline-xs: 12px;
+}

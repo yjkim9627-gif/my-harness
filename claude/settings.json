@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/prototypes/ai-social-media/analytics/harness/hooks/guard.mjs\""
+            "command": "node \"$CLAUDE_PROJECT_DIR/{{HARNESS}}/hooks/guard.mjs\""
           }
         ]
       }

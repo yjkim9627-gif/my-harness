@@ -5,7 +5,7 @@
 - 캡처: [figma-reference.png](figma-reference.png)
 
 같은 제품의 기존 화면 두 개(Content Library, Schedule)다. Analytics 화면은 이 골격을 그대로 따른다.
-아래 수치는 Figma 메타데이터(노드 위치·크기)에서 읽은 값이다. 색·폰트 값은 읽지 않았으므로 [design.md](design.md)와 `tokens/tokens.css`를 따른다.
+아래 수치는 Figma 메타데이터(노드 위치·크기)에서 읽은 값이다. 색·폰트 값은 읽지 않았으므로 design.md와 tokens.css(원본, 없으면 [vendor/](../vendor/design.md) 사본)를 따른다.
 
 ## 포함된 화면
 

@@ -1,7 +1,7 @@
 // S3 HTML 판정 — docs/gates.md S3. 모든 항목이 0건이면 통과.
 import path from 'node:path';
 import {
-  REPO, loadRules, parseArgs, readIfExists, finish, fail, loadTokenNames,
+  loadRules, parseArgs, readIfExists, finish, fail, loadTokenNames, sourceWarnings,
   loadTokenValues, tokenValuesByPrefix, CSS_NAMED_COLORS, renderMeasure,
   parseCss, parseHtml, elements, textContent, ancestors, contains,
 } from './lib.mjs';
@@ -243,10 +243,7 @@ for (const e of els.filter((e) => (e.tag === 'input' && !C.inputExcludeTypes.inc
   if (!C.inputHeights.includes(e.h)) v('S3-15', htmlFile, null, `${label(e)} 높이 ${e.h} (허용 ${C.inputHeights.join('/')})`);
 }
 
-// design.md 사본 드리프트 — 경고만
-const warnings = [];
-const orig = readIfExists(path.join(REPO, rules.sources.design));
-const copy = readIfExists(path.join(REPO, g.designCopyDrift.copy));
-if (copy !== null && orig !== copy) warnings.push(`${g.designCopyDrift.copy} 가 원본 ${rules.sources.design} 과 다름`);
+// 원본과 vendor 사본 드리프트 — 경고만
+const warnings = sourceWarnings(rules);
 
 finish({ stage: 'S3', args, violations, warnings });

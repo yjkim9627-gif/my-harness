@@ -13,6 +13,27 @@ export function loadRules() {
   return JSON.parse(fs.readFileSync(path.join(HARNESS, 'rules.json'), 'utf8'));
 }
 
+// 기준 파일 위치: design-prototype 원본이 있으면 원본, 없으면 하네스 안의 vendor 사본 (다른 컴퓨터에서 쓰기)
+export function sourcePath(rules, key) {
+  const orig = path.join(REPO, rules.sources[key]);
+  if (fs.existsSync(orig)) return orig;
+  return path.join(HARNESS, rules.sources.vendor[key]);
+}
+
+// 원본과 vendor 사본이 둘 다 있는데 다르면 경고 (실패는 아님)
+export function sourceWarnings(rules) {
+  const out = [];
+  for (const key of ['tokens', 'design']) {
+    const orig = path.join(REPO, rules.sources[key]);
+    const copy = path.join(HARNESS, rules.sources.vendor[key]);
+    if (!fs.existsSync(orig)) out.push(`${rules.sources[key]} 없음 — vendor 사본 ${rules.sources.vendor[key]} 로 판정함`);
+    else if (fs.existsSync(copy) && fs.readFileSync(orig, 'utf8') !== fs.readFileSync(copy, 'utf8')) {
+      out.push(`vendor 사본 ${rules.sources.vendor[key]} 가 원본 ${rules.sources[key]} 과 다름 — 사본을 갱신할 것`);
+    }
+  }
+  return out;
+}
+
 // node judge-sN.mjs <screen> [--run <dir>] [--figma-json <file>] [--no-write]
 export function parseArgs(argv) {
   const args = { screen: null, run: null, figmaJson: null, write: true };
@@ -70,7 +91,7 @@ export function fail(stage, args, rule, file, detail) {
 // ---------- tokens ----------
 
 export function loadTokenNames(rules) {
-  const css = fs.readFileSync(path.join(REPO, rules.sources.tokens), 'utf8');
+  const css = fs.readFileSync(sourcePath(rules, 'tokens'), 'utf8');
   return new Set([...css.matchAll(/(--[\w-]+)\s*:/g)].map((m) => m[1]));
 }
 
@@ -213,7 +234,7 @@ export function multisetDiff(a, b) {
 
 // 이름 → 값. 값이 var()를 참조하면 한 단계 풀어준다.
 export function loadTokenValues(rules) {
-  const css = fs.readFileSync(path.join(REPO, rules.sources.tokens), 'utf8');
+  const css = fs.readFileSync(sourcePath(rules, 'tokens'), 'utf8');
   const map = new Map([...css.matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)].map((m) => [m[1], m[2].trim()]));
   for (const [k, v] of map) {
     const ref = v.match(/^var\(\s*(--[\w-]+)\s*\)$/);
@@ -236,7 +257,7 @@ export function renderMeasure(rules, htmlFile) {
   const r = rules.gates.S3.render;
   const html = fs.readFileSync(htmlFile, 'utf8');
   const baseHref = pathToFileURL(path.dirname(htmlFile) + path.sep).href;
-  const tokensHref = pathToFileURL(path.join(REPO, rules.sources.tokens)).href;
+  const tokensHref = pathToFileURL(sourcePath(rules, 'tokens')).href;
   const probe = `<script>window.addEventListener('load',()=>{const out=[];const idx=new Map();
 for(const e of document.body.querySelectorAll('*')){if(['SCRIPT','STYLE','LINK','TEMPLATE'].includes(e.tagName))continue;
 const s=getComputedStyle(e);if(s.display==='none')continue;const b=e.getBoundingClientRect();idx.set(e,out.length);
@@ -256,7 +277,8 @@ document.documentElement.setAttribute('data-judge',btoa(unescape(encodeURICompon
   const file = path.join(tmp, 'render.html');
   fs.writeFileSync(file, doc);
   try {
-    const res = spawnSync(r.chrome, [
+    const chrome = process.env[r.chromeEnv] || r.chrome;
+    const res = spawnSync(chrome, [
       '--headless=new', '--disable-gpu', '--allow-file-access-from-files', '--hide-scrollbars',
       `--window-size=${r.viewport[0]},${r.viewport[1]}`, `--virtual-time-budget=${r.budgetMs}`,
       '--dump-dom', pathToFileURL(file).href,
